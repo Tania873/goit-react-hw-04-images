@@ -16,7 +16,7 @@ export function App() {
   const [images, setImages] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadMore, setLoadMore] = useState(false);
+  const [loadMore, setLoadMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [targetImage, setTargetImage] = useState(null);
 
@@ -30,17 +30,9 @@ export function App() {
       .then(data => {
         if (!data.hits.length) {
           Notiflix.Notify.failure('No images found!');
-          setLoadMore(false);
-          setIsLoading(false);
-        } else {
-          setLoadMore(true);
-        }
-
-        if (page === 1) {
-          setImages(data.hits);
-          setTotalPages(Math.ceil(data.totalHits / 12));
         } else {
           setImages(prevState => [...prevState, ...data.hits]);
+          setTotalPages(Math.ceil(data.totalHits / 12));
           window.scrollTo({
             top: document.documentElement.scrollHeight,
             behavior: 'smooth',
@@ -51,11 +43,6 @@ export function App() {
       .finally(() => setIsLoading(false));
   }, [page, searchQuery]);
 
-  useEffect(() => {
-    setImages([]);
-    setPage(1);
-  }, [searchQuery]);
-
   const loadMoreHandler = () => {
     setPage(page + 1);
   };
@@ -63,7 +50,7 @@ export function App() {
   const formSubmitHandler = searchQuery => {
     setSearchQuery(searchQuery);
     setPage(1);
-    // setImages([]);
+    setImages([]);
   };
 
   const toggleModal = (src, alt) => {

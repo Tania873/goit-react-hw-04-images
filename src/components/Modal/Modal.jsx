@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
 function Modal({ alt, src, onClose }) {
-  const handleKeyDown = e => e.code === 'Escape' && onClose();
-
   useEffect(() => {
+    const handleKeyDown = e => e.code === 'Escape' && onClose();
     window.addEventListener('keydown', handleKeyDown);
-  });
-
-  useEffect(() => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
