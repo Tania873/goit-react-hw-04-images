@@ -4,7 +4,6 @@ import css from './App.module.css';
 
 import Searchbar from '../Searchbar/Searchbar';
 import ImageGallery from '../ImageGallery/ImageGallery';
-import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
 import Modal from '../Modal/Modal';
@@ -44,7 +43,7 @@ export function App() {
   }, [page, searchQuery]);
 
   const loadMoreHandler = () => {
-    setPage(page + 1);
+    setPage(prevState => prevState + 1);
   };
 
   const formSubmitHandler = searchQuery => {
@@ -62,9 +61,7 @@ export function App() {
     <div className={css.app}>
       <Searchbar onSubmit={formSubmitHandler} />
       {images.length > 0 && (
-        <ImageGallery>
-          <ImageGalleryItem images={images} onClick={toggleModal} />
-        </ImageGallery>
+        <ImageGallery images={images} onClick={toggleModal} />
       )}
       {showModal && (
         <Modal
